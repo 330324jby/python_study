@@ -1,0 +1,16 @@
+{%extends "showIndex.html" %}
+ 
+{% block mainbody %}
+<div class="container">
+    <div class="list-group"><!---->
+        {% for line in list %}
+        <h4>
+            <li class="list-group-item">
+                <small>{{ line.id }}</small>
+                &nbsp;&nbsp;&nbsp;{{ line.name }}
+            </li>
+        </h4>
+        {% endfor %}
+    </div><!---->
+</div>
+{% endblock %}

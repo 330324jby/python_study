@@ -1,0 +1,17 @@
+{%extends "showIndex.html" %}
+ 
+{% block mainbody %}
+
+<form action="/works/wenku/" method="GET" class="form-horizontal">
+    <div calss="form-group">
+        <label class="control-label text-center">百度文库url:<small>(文章越大，所需时间越长)</small></label>
+        <input type="text" class="form-control" name="url"/>
+        <input type="submit" value="点击爬取" class="form-control"/>
+    </div>
+</form>
+<hr class="simple" color="#6f5499" />
+<div class="container">
+    <h2 class="text-center">{{ title }}</h2>
+    <p>{{ content }}</p>
+</div>
+{% endblock %}
