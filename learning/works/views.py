@@ -12,11 +12,13 @@ def show_movie_name(request):
     return render(request,"showMovie.html",{"list":list})
 
 def show_baidu_wenku(request):
-    id=request.GET.get("id")   
+    id=request.GET.get("id")
     artical=None
     if id!=None:
         artical=models.artical.objects.filter(id=id).values();
     #print(artical)
+    if artical==None:
+        return render(request,"showWenKu.html")
     return render(request,"showWenKu.html",{"artical":artical[0]})
 
 def get_baidu_wenku(request):
@@ -25,8 +27,9 @@ def get_baidu_wenku(request):
         url=request.GET.get("url")
         artical=get_artical.getHtml(url)
         returndic["title"]=artical[0]
-        returndic["content"]=artical[1]
-    return render(request,"getWenKu.html",returndic)
+        returndic["content"]=artical[1]    
+        return render(request,"getWenKu.html",returndic)
+    return render(request,"getWenKu.html")
 
 def progress_show_wenku(request):
     #分两个线程，主线程爬取内容
