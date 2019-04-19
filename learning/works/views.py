@@ -27,3 +27,9 @@ def get_baidu_wenku(request):
         returndic["title"]=artical[0]
         returndic["content"]=artical[1]
     return render(request,"getWenKu.html",returndic)
+
+def progress_show_wenku(request):
+    #分两个线程，主线程爬取内容
+    #副线程判断进度，暂时返还结果,完成返还0
+    #print(get_artical.page_per)
+    return HttpResponse(get_artical.page_per)

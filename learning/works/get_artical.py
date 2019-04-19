@@ -4,6 +4,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 import time
 import pymysql
 
+page_per=0
 #处理点击继续阅读
 #参数：网页地址
 #返回driver
@@ -51,10 +52,18 @@ def getHtml(url):
         result=brower.execute_script("arguments[0].scrollIntoView();",scroll)
         time.sleep(1)
         res+=getInfoNeed(brower.page_source,temp_xpath)
+        global page_per
+        page_per=((i+1)*100//page_size)
+        #print("in"+str(page_per))
         #print(res)
     brower.close()
     artical.append(res)
     return artical
+
+def get_page_count():
+    xpath_page_count="//span[@class='page-count']"
+    page_size=int(brower.find_element_by_xpath(xpath_page_count).text[1:])
+    return page_size
 
 #参数：网页html，查找内容xpath
 def getInfoNeed(html,xpath):

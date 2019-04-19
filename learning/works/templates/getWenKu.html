@@ -1,17 +1,49 @@
 {%extends "showIndex.html" %}
- 
+
 {% block mainbody %}
 
 <form action="/works/wenku/" method="GET" class="form-horizontal">
     <div calss="form-group">
         <label class="control-label text-center">百度文库url:<small>(文章越大，所需时间越长)</small></label>
-        <input type="text" class="form-control" name="url"/>
-        <input type="submit" value="点击爬取" class="form-control"/>
+        <input id="url" type="text" class="form-control" name="url"/>
+        <input type="submit" value="点击爬取" class="form-control" onclick="requestAsync()"/>
+        <small id="tip"></small>
     </div>
 </form>
 <hr class="simple" color="#6f5499" />
-<div class="container">
-    <h2 class="text-center">{{ title }}</h2>
-    <p>{{ content }}</p>
+<div class="progress">
+    <div id="p_b" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+        100%
+    </div>
 </div>
+<div class="container">
+        <h2 class="text-center">{{ title }}</h2>
+        <p>{{ content }}</p>
+    </div>
+<script type="text/javascript">
+    function requestAsync() {
+        //完成后页面自动刷新，不用关闭计时器了
+        $('#tip').text("连接中...");
+        var sitv = setInterval(function(){
+            /*if($('#p_b').text()=="100%"){
+                clearInterval(sitv);
+                $('#p_b').attr("style","width:100%");
+                $('#p_b').text("100");
+            }*/
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "/works/wenku/progress/",
+                data: $('#url').text(),
+                error : function() {
+                    alert("操作异常!");
+                },
+                success: function (data) {
+                    $('#p_b').attr("style","width:"+data+"%");
+                    $('#p_b').text(data);
+                }            
+            });
+        }, 1000);
+    }
+</script>
 {% endblock %}
